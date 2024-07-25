@@ -50,7 +50,7 @@ class CarState(CarStateBase):
     self.lkas_hud = {}
     self.pcm_accel_net = 0.0
 
-  def update(self, cp, cp_cam):
+  def update(self, cp, cp_cam, frogpilot_toggles):
     ret = car.CarState.new_message()
     fp_ret = custom.FrogPilotCarState.new_message()
 
