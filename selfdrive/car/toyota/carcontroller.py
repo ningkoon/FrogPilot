@@ -9,6 +9,8 @@ from openpilot.selfdrive.car.toyota.values import CAR, STATIC_DSU_MSGS, NO_STOP_
                                         UNSUPPORTED_DSU_CAR, STOP_AND_GO_CAR
 from opendbc.can.packer import CANPacker
 
+from openpilot.selfdrive.frogpilot.controls.lib.frogpilot_variables import get_max_allowed_accel
+
 LongCtrlState = car.CarControl.Actuators.LongControlState
 SteerControlType = car.CarParams.SteerControlType
 VisualAlert = car.CarControl.HUDControl.VisualAlert
@@ -162,7 +164,10 @@ class CarController(CarControllerBase):
       pcm_accel_cmd = actuators.accel
       self.permit_braking = True
 
-    pcm_accel_cmd = clip(pcm_accel_cmd, self.params.ACCEL_MIN, self.params.ACCEL_MAX)
+    if frogpilot_toggles.sport_plus:
+      pcm_accel_cmd = clip(pcm_accel_cmd, self.params.ACCEL_MIN, get_max_allowed_accel(CS.out.vEgo))
+    else:
+      pcm_accel_cmd = clip(pcm_accel_cmd, self.params.ACCEL_MIN, self.params.ACCEL_MAX)
 
     # on entering standstill, send standstill request
     if CS.out.standstill and not self.last_standstill and (self.CP.carFingerprint not in NO_STOP_TIMER_CAR or self.CP.enableGasInterceptor):
