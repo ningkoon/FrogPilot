@@ -29,10 +29,14 @@ FrogPilotSoundsPanel::FrogPilotSoundsPanel(FrogPilotSettingsWindow *parent) : Fr
       });
       soundsToggle = alertVolumeControlToggle;
     } else if (alertVolumeControlKeys.find(param) != alertVolumeControlKeys.end()) {
+      std::map<int, QString> volumeLabels;
+      for (int i = 0; i <= 101; ++i) {
+        volumeLabels[i] = i == 101 ? tr("Auto") : i == 0 ? tr("Muted") : QString::number(i) + "%";
+      }
       if (param == "WarningImmediateVolume") {
-        soundsToggle = new FrogPilotParamValueControl(param, title, desc, icon, 25, 100, "%");
+        soundsToggle = new FrogPilotParamValueControl(param, title, desc, icon, 25, 101, QString(), volumeLabels);
       } else {
-        soundsToggle = new FrogPilotParamValueControl(param, title, desc, icon, 0, 100, "%");
+        soundsToggle = new FrogPilotParamValueControl(param, title, desc, icon, 0, 101, QString(), volumeLabels);
       }
 
     } else if (param == "CustomAlerts") {
