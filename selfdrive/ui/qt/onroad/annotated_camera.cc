@@ -596,11 +596,11 @@ void AnnotatedCameraWidget::drawLead(QPainter &painter, const cereal::RadarState
 
     QString text;
     if (adjacent && (fabs(x - lead_x) >= 500 || fabs(y - lead_y) >= 500)) {
-      text = QString("%1 %2 | %3 %4")
-              .arg(qRound(d_rel * distanceConversion))
-              .arg(leadDistanceUnit)
-              .arg(qRound(lead_speed * speedConversion))
-              .arg(leadSpeedUnit);
+      text = QString("%1 (%2) | %3 (%4)")
+              .arg(qRound(x))
+              .arg(qRound(lead_x))
+              .arg(qRound(y))
+              .arg(qRound(lead_y));
     } else if (!adjacent) {
       text = QString("%1 %2 | %3 %4 | %5 %6")
               .arg(qRound(d_rel * distanceConversion))
