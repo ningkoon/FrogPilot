@@ -595,13 +595,13 @@ void AnnotatedCameraWidget::drawLead(QPainter &painter, const cereal::RadarState
     painter.setFont(InterFont(35, QFont::Bold));
 
     QString text;
-    if (adjacent && (fabs(x - lead_x) >= 500 || fabs(y - lead_y) >= 500)) {
+    if (adjacent) {
       text = QString("%1 %2 | %3 %4")
               .arg(qRound(d_rel * distanceConversion))
               .arg(leadDistanceUnit)
               .arg(qRound(lead_speed * speedConversion))
               .arg(leadSpeedUnit);
-    } else if (!adjacent) {
+    } else {
       text = QString("%1 %2 | %3 %4 | %5 %6")
               .arg(qRound(d_rel * distanceConversion))
               .arg(leadDistanceUnit)
@@ -623,7 +623,9 @@ void AnnotatedCameraWidget::drawLead(QPainter &painter, const cereal::RadarState
       lead_y = y + text_y + textHeight;
     }
 
-    painter.drawText(text_x, text_y, text);
+    if (!adjacent || fabs((x + text_x + textWidth) - lead_x) >= lead_x || fabs((y + text_y + textHeight) - lead_y) >= lead_x) {
+      painter.drawText(text_x, text_y, text);
+    }
   }
 
   painter.restore();
