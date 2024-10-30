@@ -104,7 +104,6 @@ frogpilot_default_params: list[tuple[str, str | bytes]] = [
   ("CustomIcons", "frog-animated"),
   ("CustomizationLevel", "0"),
   ("CustomizationLevelConfirmed", "0"),
-  ("CustomPaths", "1"),
   ("CustomPersonalities", "0"),
   ("CustomSignals", "frog"),
   ("CustomSounds", "frog"),
@@ -163,8 +162,8 @@ frogpilot_default_params: list[tuple[str, str | bytes]] = [
   ("IncreasedStoppedDistance", "3"),
   ("IncreaseThermalLimits", "0"),
   ("JerkInfo", "1"),
-  ("LaneChangeCustomizations", "1"),
-  ("LaneChangeTime", "0.5"),
+  ("LaneChangeCustomizations", "0"),
+  ("LaneChangeTime", "1.0"),
   ("LaneDetectionWidth", "9"),
   ("LaneLinesWidth", "4"),
   ("LateralMetrics", "1"),
@@ -192,7 +191,6 @@ frogpilot_default_params: list[tuple[str, str | bytes]] = [
   ("MaxDesiredAcceleration", "4.0"),
   ("MinimumLaneChangeSpeed", str(LANE_CHANGE_SPEED_MIN / CV.MPH_TO_MS)),
   ("Model", DEFAULT_MODEL),
-  ("ModelManagement", "0"),
   ("ModelName", DEFAULT_MODEL_NAME),
   ("ModelRandomizer", "0"),
   ("ModelUI", "1"),
@@ -580,10 +578,9 @@ class FrogPilotVariables:
     toggle.lead_detection_probability = clip(self.params.get_int("LeadDetectionThreshold") / 100, 0.01, 0.99) if toggle.longitudinal_tuning else 0.5
     toggle.max_desired_acceleration = clip(self.params.get_float("MaxDesiredAcceleration"), 0.1, 4.0) if toggle.longitudinal_tuning else 4.0
 
-    toggle.model_manager = self.params.get_bool("ModelManagement", block=openpilot_installed)
-    available_models = self.params.get("AvailableModels", block=toggle.model_manager, encoding='utf-8') or ""
-    available_model_names = self.params.get("AvailableModelsNames", block=toggle.model_manager, encoding='utf-8') or ""
-    if toggle.model_manager and available_models:
+    available_models = self.params.get("AvailableModels", block=True, encoding='utf-8') or ""
+    available_model_names = self.params.get("AvailableModelsNames", block=True, encoding='utf-8') or ""
+    if available_models:
       if self.params.get_bool("ModelRandomizer"):
         blacklisted_models = (self.params.get("BlacklistedModels", encoding='utf-8') or "").split(',')
         existing_models = [model for model in available_models.split(',') if model not in blacklisted_models and os.path.exists(os.path.join(MODELS_PATH, f"{model}.thneed"))]
@@ -877,7 +874,6 @@ class FrogPilotVariables:
       toggle.lead_detection_probability = self.default_frogpilot_toggles.LeadDetectionThreshold / 100 if toggle.longitudinal_tuning else 0.5
       toggle.max_desired_acceleration = self.default_frogpilot_toggles.MaxDesiredAcceleration if toggle.longitudinal_tuning else 4.0
 
-      toggle.model_manager = self.default_frogpilot_toggles.ModelManagement
       toggle.model = DEFAULT_MODEL
       toggle.part_model_param = ""
       toggle.classic_model = classic_models and toggle.model in classic_models.split(',')
@@ -1143,7 +1139,6 @@ class FrogPilotVariables:
       toggle.lead_detection_probability = self.default_frogpilot_toggles.LeadDetectionThreshold / 100 if toggle.longitudinal_tuning else 0.5
       toggle.max_desired_acceleration = self.default_frogpilot_toggles.MaxDesiredAcceleration if toggle.longitudinal_tuning else 4.0
 
-      toggle.model_manager = self.default_frogpilot_toggles.ModelManagement
       toggle.model = DEFAULT_MODEL
       toggle.part_model_param = ""
       toggle.classic_model = classic_models and toggle.model in classic_models.split(',')
