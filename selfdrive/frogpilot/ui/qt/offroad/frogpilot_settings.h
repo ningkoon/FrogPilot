@@ -35,18 +35,18 @@ public:
   float steerLatAccelStock;
   float steerRatioStock;
 
+  int confirmationLevel;
+
 signals:
   void closeMapBoxInstructions();
   void closeMapSelection();
   void closeParentToggle();
   void closeSubParentToggle();
-  void closeSubSubParentToggle();
   void openMapBoxInstructions();
   void openMapSelection();
   void openPanel();
   void openParentToggle();
   void openSubParentToggle();
-  void openSubSubParentToggle();
   void updateCarToggles();
   void updateMetric();
 

@@ -280,6 +280,8 @@ class FrogPilotParamValueControl : public AbstractControl {
   Q_OBJECT
 
 public:
+  QLabel *valueLabel;
+
   FrogPilotParamValueControl(const QString &param, const QString &title, const QString &desc, const QString &icon,
                              const float minValue, const float maxValue, const QString &label = "", const std::map<int, QString> &valueLabels = {},
                              const float interval = 1.0f, const bool compactSize = false, const bool instantUpdate = false)
@@ -411,8 +413,6 @@ private:
 
   Params params;
 
-  QLabel *valueLabel;
-
   QPushButton decrementButton;
   QPushButton incrementButton;
 
@@ -442,12 +442,11 @@ public:
                                    const float minValue, const float maxValue, const QString &label = "", const std::map<int, QString> &valueLabels = {},
                                    const float interval = 1.0f,
                                    const std::vector<QString> &buttonParams = {}, const std::vector<QString> &buttonLabels = {},
-                                   const bool checkable = true, const int minimumButtonWidth = 225)
+                                   const bool leftButton = false, const bool checkable = true, const int minimumButtonWidth = 225)
     : FrogPilotParamValueControl(param, title, desc, icon, minValue, maxValue, label, valueLabels, interval, true),
       buttonParams(buttonParams),
       buttonGroup(new QButtonGroup(this)),
       checkable(checkable) {
-
     buttonGroup->setExclusive(false);
 
     for (int i = 0; i < buttonLabels.size(); ++i) {
@@ -456,7 +455,11 @@ public:
       button->setStyleSheet(buttonStyle);
       button->setMinimumWidth(minimumButtonWidth);
 
-      hlayout->addWidget(button);
+      if (leftButton) {
+        hlayout->insertWidget(hlayout->indexOf(valueLabel) - 1, button);
+      } else {
+        hlayout->addWidget(button);
+      }
       buttonGroup->addButton(button, i);
     }
 

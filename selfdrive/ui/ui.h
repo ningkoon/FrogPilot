@@ -174,7 +174,6 @@ typedef struct UIScene {
   bool hide_map_icon;
   bool hide_max_speed;
   bool hide_speed;
-  bool hide_speed_ui;
   bool ip_metrics;
   bool jerk_metrics;
   bool lateral_tuning_metrics;
@@ -193,7 +192,6 @@ typedef struct UIScene {
   bool random_events;
   bool red_light;
   bool reverse;
-  bool reverse_cruise_increase;
   bool right_hand_drive;
   bool road_name_ui;
   bool rotating_wheel;
@@ -201,7 +199,6 @@ typedef struct UIScene {
   bool show_blind_spot;
   bool show_fps;
   bool show_speed_limit_offset;
-  bool show_speed_limit_offset_ui;
   bool show_stopping_point;
   bool show_stopping_point_metrics;
   bool sidebar_metrics;

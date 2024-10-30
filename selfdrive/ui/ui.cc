@@ -395,7 +395,6 @@ void ui_update_frogpilot_params(UIState *s) {
   scene.hide_map_icon = scene.frogpilot_toggles.value("hide_map_icon").toBool();
   scene.hide_max_speed = scene.frogpilot_toggles.value("hide_max_speed").toBool();
   scene.hide_speed = scene.frogpilot_toggles.value("hide_speed").toBool();
-  scene.hide_speed_ui = scene.frogpilot_toggles.value("hide_speed_ui").toBool();
   scene.ip_metrics = scene.frogpilot_toggles.value("ip_metrics").toBool();
   scene.jerk_metrics = scene.frogpilot_toggles.value("jerk_metrics").toBool();
   scene.lateral_tuning_metrics = scene.has_auto_tune && scene.frogpilot_toggles.value("lateral_tuning_metrics").toBool();
@@ -419,7 +418,6 @@ void ui_update_frogpilot_params(UIState *s) {
   scene.pedals_on_ui = scene.frogpilot_toggles.value("pedals_on_ui").toBool();
   scene.radarless_model = scene.frogpilot_toggles.value("radarless_model").toBool();
   scene.random_events = scene.frogpilot_toggles.value("random_events").toBool();
-  scene.reverse_cruise_increase = scene.frogpilot_toggles.value("reverse_cruise_increase").toBool();
   scene.road_edge_width = scene.frogpilot_toggles.value("road_edge_width").toDouble();
   scene.road_name_ui = scene.frogpilot_toggles.value("road_name_ui").toBool();
   scene.rotating_wheel = scene.frogpilot_toggles.value("rotating_wheel").toBool();
@@ -431,7 +429,6 @@ void ui_update_frogpilot_params(UIState *s) {
   scene.show_blind_spot = scene.frogpilot_toggles.value("blind_spot_metrics").toBool();
   scene.show_fps = scene.frogpilot_toggles.value("show_fps").toBool();
   scene.show_speed_limit_offset = scene.frogpilot_toggles.value("show_speed_limit_offset").toBool();
-  scene.show_speed_limit_offset_ui = scene.frogpilot_toggles.value("show_speed_limit_offset_ui").toBool();
   scene.show_stopping_point = scene.frogpilot_toggles.value("show_stopping_point").toBool();
   scene.show_stopping_point_metrics = scene.frogpilot_toggles.value("show_stopping_point_metrics").toBool();
   scene.sidebar_color1 = loadThemeColors("Sidebar1");

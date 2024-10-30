@@ -5,13 +5,12 @@
 
 #include "selfdrive/frogpilot/navigation/ui/maps_settings.h"
 #include "selfdrive/frogpilot/navigation/ui/primeless_settings.h"
-#include "selfdrive/frogpilot/ui/qt/offroad/advanced_driving_settings.h"
-#include "selfdrive/frogpilot/ui/qt/offroad/advanced_visual_settings.h"
 #include "selfdrive/frogpilot/ui/qt/offroad/data_settings.h"
 #include "selfdrive/frogpilot/ui/qt/offroad/device_settings.h"
 #include "selfdrive/frogpilot/ui/qt/offroad/frogpilot_settings.h"
 #include "selfdrive/frogpilot/ui/qt/offroad/lateral_settings.h"
 #include "selfdrive/frogpilot/ui/qt/offroad/longitudinal_settings.h"
+#include "selfdrive/frogpilot/ui/qt/offroad/model_settings.h"
 #include "selfdrive/frogpilot/ui/qt/offroad/sounds_settings.h"
 #include "selfdrive/frogpilot/ui/qt/offroad/theme_settings.h"
 #include "selfdrive/frogpilot/ui/qt/offroad/utilities.h"
@@ -45,13 +44,13 @@ FrogPilotSettingsWindow::FrogPilotSettingsWindow(SettingsWindow *parent) : QFram
 
   FrogPilotListWidget *list = new FrogPilotListWidget(frogpilotSettingsWidget);
 
-  FrogPilotAdvancedDrivingPanel *frogpilotAdvancedDrivingPanel = new FrogPilotAdvancedDrivingPanel(this);
-  QObject::connect(frogpilotAdvancedDrivingPanel, &FrogPilotAdvancedDrivingPanel::openParentToggle, this, &FrogPilotSettingsWindow::openParentToggle);
-  QObject::connect(frogpilotAdvancedDrivingPanel, &FrogPilotAdvancedDrivingPanel::openSubParentToggle, this, &FrogPilotSettingsWindow::openSubParentToggle);
-  QObject::connect(frogpilotAdvancedDrivingPanel, &FrogPilotAdvancedDrivingPanel::openSubSubParentToggle, this, &FrogPilotSettingsWindow::openSubSubParentToggle);
-
-  FrogPilotAdvancedVisualsPanel *frogpilotAdvancedVisualsPanel = new FrogPilotAdvancedVisualsPanel(this);
-  QObject::connect(frogpilotAdvancedVisualsPanel, &FrogPilotAdvancedVisualsPanel::openParentToggle, this, &FrogPilotSettingsWindow::openParentToggle);
+  std::vector<QString> toggle_presets{tr("Basic"), tr("Standard"), tr("Advanced")};
+  ButtonParamControl *toggle_preset = new ButtonParamControl("CustomizationLevel", tr("Customization Level"),
+                                            tr("Choose your preferred customization level. 'Standard' is recommended for most users, offering a balanced experience and automatically managing more 'Advanced' features,"
+                                               " while 'Basic' is designed for those new to customization or seeking simplicity."),
+                                            "../frogpilot/assets/toggle_icons/icon_customization.png",
+                                            toggle_presets);
+  list->addItem(toggle_preset);
 
   FrogPilotDevicePanel *frogpilotDevicePanel = new FrogPilotDevicePanel(this);
   QObject::connect(frogpilotDevicePanel, &FrogPilotDevicePanel::openParentToggle, this, &FrogPilotSettingsWindow::openParentToggle);
@@ -62,6 +61,10 @@ FrogPilotSettingsWindow::FrogPilotSettingsWindow(SettingsWindow *parent) : QFram
   FrogPilotLongitudinalPanel *frogpilotLongitudinalPanel = new FrogPilotLongitudinalPanel(this);
   QObject::connect(frogpilotLongitudinalPanel, &FrogPilotLongitudinalPanel::openParentToggle, this, &FrogPilotSettingsWindow::openParentToggle);
   QObject::connect(frogpilotLongitudinalPanel, &FrogPilotLongitudinalPanel::openSubParentToggle, this, &FrogPilotSettingsWindow::openSubParentToggle);
+
+  FrogPilotModelPanel *frogpilotModelPanel = new FrogPilotModelPanel(this);
+  QObject::connect(frogpilotModelPanel, &FrogPilotModelPanel::openParentToggle, this, &FrogPilotSettingsWindow::openParentToggle);
+  QObject::connect(frogpilotModelPanel, &FrogPilotModelPanel::openSubParentToggle, this, &FrogPilotSettingsWindow::openSubParentToggle);
 
   FrogPilotMapsPanel *frogpilotMapsPanel = new FrogPilotMapsPanel(this);
   QObject::connect(frogpilotMapsPanel, &FrogPilotMapsPanel::openMapSelection, this, &FrogPilotSettingsWindow::openMapSelection);
@@ -79,9 +82,8 @@ FrogPilotSettingsWindow::FrogPilotSettingsWindow(SettingsWindow *parent) : QFram
   QObject::connect(frogpilotVisualsPanel, &FrogPilotVisualsPanel::openParentToggle, this, &FrogPilotSettingsWindow::openParentToggle);
 
   std::vector<std::pair<QString, std::vector<QWidget*>>> panels = {
-    {tr("Advanced Settings"), {frogpilotAdvancedDrivingPanel, frogpilotAdvancedVisualsPanel}},
     {tr("Alerts and Sounds"), {frogpilotSoundsPanel}},
-    {tr("Driving Controls"), {frogpilotLongitudinalPanel, frogpilotLateralPanel}},
+    {tr("Driving Controls"), {frogpilotModelPanel, frogpilotLongitudinalPanel, frogpilotLateralPanel}},
     {tr("Navigation"), {frogpilotMapsPanel, frogpilotPrimelessPanel}},
     {tr("System Management"), {new FrogPilotDataPanel(this), frogpilotDevicePanel, new UtilitiesPanel(this)}},
     {tr("Theme and Appearance"), {frogpilotVisualsPanel, frogpilotThemesPanel}},
@@ -89,7 +91,6 @@ FrogPilotSettingsWindow::FrogPilotSettingsWindow(SettingsWindow *parent) : QFram
   };
 
   std::vector<QString> icons = {
-    "../frogpilot/assets/toggle_icons/icon_advanced.png",
     "../frogpilot/assets/toggle_icons/icon_sound.png",
     "../frogpilot/assets/toggle_icons/icon_steering.png",
     "../frogpilot/assets/toggle_icons/icon_map.png",
@@ -99,7 +100,6 @@ FrogPilotSettingsWindow::FrogPilotSettingsWindow(SettingsWindow *parent) : QFram
   };
 
   std::vector<QString> descriptions = {
-    tr("Advanced FrogPilot features for more experienced users."),
     tr("Options to customize FrogPilot's sound alerts and notifications."),
     tr("FrogPilot features that impact acceleration, braking, and steering."),
     tr("Offline maps downloader and 'Navigate On openpilot (NOO)' settings."),
@@ -109,9 +109,8 @@ FrogPilotSettingsWindow::FrogPilotSettingsWindow(SettingsWindow *parent) : QFram
   };
 
   std::vector<std::vector<QString>> buttonLabels = {
-    {tr("DRIVING"), tr("VISUALS")},
     {tr("MANAGE")},
-    {tr("GAS / BRAKE"), tr("STEERING")},
+    {tr("DRIVING MODEL"), tr("GAS / BRAKE"), tr("STEERING")},
     {tr("OFFLINE MAPS"), tr("PRIMELESS NAVIGATION")},
     {tr("DATA"), tr("DEVICE"), tr("UTILITIES")},
     {tr("APPEARANCE"), tr("THEME")},
@@ -133,12 +132,13 @@ FrogPilotSettingsWindow::FrogPilotSettingsWindow(SettingsWindow *parent) : QFram
   QObject::connect(parent, &SettingsWindow::closePanel, this, &FrogPilotSettingsWindow::closePanel);
   QObject::connect(parent, &SettingsWindow::closeParentToggle, this, &FrogPilotSettingsWindow::closeParentToggle);
   QObject::connect(parent, &SettingsWindow::closeSubParentToggle, this, &FrogPilotSettingsWindow::closeSubParentToggle);
-  QObject::connect(parent, &SettingsWindow::closeSubSubParentToggle, this, &FrogPilotSettingsWindow::closeSubSubParentToggle);
   QObject::connect(parent, &SettingsWindow::updateMetric, this, &FrogPilotSettingsWindow::updateMetric);
   QObject::connect(uiState(), &UIState::offroadTransition, this, &FrogPilotSettingsWindow::updateCarVariables);
 }
 
 void FrogPilotSettingsWindow::showEvent(QShowEvent *event) {
+  confirmationLevel = params.getInt("CustomizationLevel");
+
   updatePanelVisibility();
 }
 

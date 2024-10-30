@@ -3,19 +3,19 @@
 FrogPilotDevicePanel::FrogPilotDevicePanel(FrogPilotSettingsWindow *parent) : FrogPilotListWidget(parent) {
   const std::vector<std::tuple<QString, QString, QString, QString>> deviceToggles {
     {"DeviceManagement", tr("Device Settings"), tr("Device behavior settings."), "../frogpilot/assets/toggle_icons/icon_device.png"},
-    {"DeviceShutdown", tr("Device Shutdown Timer"), tr("How long the device stays on after you stop driving."), ""},
-    {"OfflineMode", tr("Disable Internet Requirement"), tr("The device can work without an internet connection for as long as you need."), ""},
-    {"IncreaseThermalLimits", tr("Increase Thermal Safety Limit"), tr("The device can run at higher temperatures than recommended."), ""},
-    {"LowVoltageShutdown", tr("Low Battery Shutdown Threshold"), tr("Shut down the device when the car's battery gets too low to prevent damage to the 12V battery."), ""},
-    {"NoLogging", tr("Turn Off Data Tracking"), tr("Disable all tracking to improve privacy."), ""},
-    {"NoUploads", tr("Turn Off Data Uploads"), tr("Stop the device from sending any data to the servers."), ""},
+    {"DeviceShutdown", tr("Device Shutdown Timer"), tr("Controls how long the device stays on after you stop driving."), ""},
+    {"OfflineMode", tr("Disable Internet Requirement"), tr("Allows the device to work without an internet connection."), ""},
+    {"IncreaseThermalLimits", tr("Increase Thermal Safety Limit"), tr("Allows the device to run at higher temperatures than recommended."), ""},
+    {"LowVoltageShutdown", tr("Low Battery Shutdown Threshold"), tr("Manages the threshold for shutting down the device to protect the car's battery from excessive drain and potential damage."), ""},
+    {"NoLogging", tr("Turn Off Data Tracking"), tr("Disables all data tracking to improve privacy."), ""},
+    {"NoUploads", tr("Turn Off Data Uploads"), tr("Stops the device from sending any data to the servers."), ""},
 
     {"ScreenManagement", tr("Screen Settings"), tr("Screen behavior settings."), "../frogpilot/assets/toggle_icons/icon_light.png"},
-    {"ScreenBrightness", tr("Screen Brightness (Offroad)"), tr("The screen brightness when you're not driving."), ""},
-    {"ScreenBrightnessOnroad", tr("Screen Brightness (Onroad)"), tr("The screen brightness while you're driving."), ""},
-    {"ScreenRecorder", tr("Screen Recorder"), tr("Display a button in the onroad UI to record the screen."), ""},
-    {"ScreenTimeout", tr("Screen Timeout (Offroad)"), tr("How long it takes for the screen to turn off when you're not driving."), ""},
-    {"ScreenTimeoutOnroad", tr("Screen Timeout (Onroad)"), tr("How long it takes for the screen to turn off while you're driving."), ""}
+    {"ScreenBrightness", tr("Screen Brightness (Offroad)"), tr("Controls the screen brightness when you're not driving."), ""},
+    {"ScreenBrightnessOnroad", tr("Screen Brightness (Onroad)"), tr("Controls the screen brightness while you're driving."), ""},
+    {"ScreenRecorder", tr("Screen Recorder"), tr("Enables a button in the onroad UI to record the screen."), ""},
+    {"ScreenTimeout", tr("Screen Timeout (Offroad)"), tr("Controls how long it takes for the screen to turn off when you're not driving."), ""},
+    {"ScreenTimeoutOnroad", tr("Screen Timeout (Onroad)"), tr("Controls how long it takes for the screen to turn off while you're driving."), ""}
   };
 
   for (const auto &[param, title, desc, icon] : deviceToggles) {

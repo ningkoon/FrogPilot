@@ -77,7 +77,7 @@ void AnnotatedCameraWidget::updateState(int alert_height, const UIState &s) {
   }
 
   has_us_speed_limit = (nav_alive && speed_limit_sign == cereal::NavInstruction::SpeedLimitSign::MUTCD) || (speedLimitController && !useViennaSLCSign);
-  has_eu_speed_limit = (nav_alive && speed_limit_sign == cereal::NavInstruction::SpeedLimitSign::VIENNA) && !(speedLimitController && !useViennaSLCSign) || (speedLimitController && useViennaSLCSign);
+  has_eu_speed_limit = (nav_alive && speed_limit_sign == cereal::NavInstruction::SpeedLimitSign::VIENNA) || (speedLimitController && useViennaSLCSign);
   is_metric = s.scene.is_metric;
   speedUnit =  s.scene.is_metric ? tr("km/h") : tr("mph");
   hideBottomIcons = (cs.getAlertSize() != cereal::ControlsState::AlertSize::NONE || turnSignalAnimation && (turnSignalLeft || turnSignalRight) && (signalStyle == "traditional" || signalStyle == "traditional_gif") || bigMapOpen);
@@ -147,8 +147,6 @@ void AnnotatedCameraWidget::drawHud(QPainter &p) {
       ), 10));
     } else if (trafficModeActive) {
       p.setPen(QPen(redColor(), 10));
-    } else if (reverseCruise) {
-      p.setPen(QPen(blueColor(), 6));
     } else {
       p.setPen(QPen(whiteColor(75), 6));
     }
@@ -936,8 +934,6 @@ void AnnotatedCameraWidget::updateFrogPilotVariables(int alert_height, const UIS
   if (enablePedalIcons) {
     pedal_icons->updateState(scene);
   }
-
-  reverseCruise = scene.reverse_cruise_increase;
 
   roadNameUI = scene.road_name_ui;
 

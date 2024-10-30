@@ -19,7 +19,6 @@ signals:
 private:
   void hideToggles();
   void showToggles(const std::set<QString> &keys);
-  void updateCarToggles();
   void updateState(const UIState &s);
 
   std::set<QString> customThemeKeys = {
@@ -45,10 +44,8 @@ private:
   bool cancellingDownload;
   bool colorDownloading;
   bool colorsDownloaded;
-  bool disableOpenpilotLongitudinal;
   bool distanceIconDownloading;
   bool distanceIconsDownloaded;
-  bool hasOpenpilotLongitudinal;
   bool iconDownloading;
   bool iconsDownloaded;
   bool personalizeOpenpilotOpen;

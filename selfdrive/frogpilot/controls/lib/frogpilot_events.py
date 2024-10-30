@@ -39,7 +39,6 @@ class FrogPilotEvents:
     self.youveGotMail_played = False
 
     self.frame = 0
-    self.holiday_theme_counter = 0
     self.max_acceleration = 0
     self.random_event_timer = 0
     self.tracking_lead_distance = 0
@@ -66,10 +65,8 @@ class FrogPilotEvents:
       self.stopped_for_light = False
 
     if not self.holiday_theme_played and frogpilot_toggles.current_holiday_theme is not None and self.frame >= 10:
-      if self.holiday_theme_counter >= 0.25:
-        self.events.add(EventName.holidayActive)
-        self.holiday_theme_played = True
-      self.holiday_theme_counter += DT_MDL
+      self.events.add(EventName.holidayActive)
+      self.holiday_theme_played = True
 
     if frogpilot_toggles.lead_departing_alert and self.frogpilot_planner.tracking_lead and carState.standstill:
       if self.tracking_lead_distance == 0:
