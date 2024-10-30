@@ -382,7 +382,7 @@ def main():
   RD = RadarD(frogpilot_toggles, CP.radarTimeStep, RI.delay)
 
   if not frogpilot_toggles.radarless_model:
-    sm = messaging.SubMaster(['modelV2', 'carState', 'frogpilotCarState', frogpilotPlan'], frequency=int(1./DT_CTRL))
+    sm = messaging.SubMaster(['modelV2', 'carState', 'frogpilotCarState', 'frogpilotPlan'], frequency=int(1./DT_CTRL))
     pm = messaging.PubMaster(['radarState', 'liveTracks'])
     while 1:
       can_strings = messaging.drain_sock_raw(can_sock, wait_for_one=True)
