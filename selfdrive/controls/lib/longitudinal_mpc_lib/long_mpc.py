@@ -355,12 +355,11 @@ class LongitudinalMpc:
     self.cruise_min_a = min_a
     self.max_a = max_a
 
-  def update(self, lead_one, lead_two, v_cruise, x, v, a, j, radarless_model, t_follow, trafficModeActive, frogpilot_toggles, personality=log.LongitudinalPersonality.standard):
+  def update(self, lead_one, lead_two, v_cruise, x, v, a, j, radarless_model, t_follow, trafficModeActive, personality=log.LongitudinalPersonality.standard):
     v_ego = self.x0[1]
     self.status = lead_one.status or lead_two.status
-    increased_distance = max(frogpilot_toggles.increased_stopped_distance + min(10 - v_ego, 0), 0) if not trafficModeActive else 0
 
-    lead_xv_0 = self.process_lead(lead_one, increased_distance)
+    lead_xv_0 = self.process_lead(lead_one)
     lead_xv_1 = self.process_lead(lead_two)
 
     # To estimate a safe distance from a moving lead, we calculate how much stopping
